@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useCart } from '../../context/CartContext';
 import {
   LocationPinIcon,
@@ -251,7 +252,10 @@ export default function MenuPage() {
                     className="bg-white border border-stone-200/80 rounded-2xl overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow duration-200 group"
                   >
                     {/* Dish Photo */}
-                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-stone-100">
+                    <Link
+                      href={`/menu/${dish.id}`}
+                      className="relative aspect-[4/3] w-full overflow-hidden bg-stone-100 block cursor-pointer"
+                    >
                       <Image
                         src={dish.image}
                         alt={dish.name}
@@ -259,7 +263,7 @@ export default function MenuPage() {
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
-                    </div>
+                    </Link>
 
                     {/* Dish Content */}
                     <div className="p-4 sm:p-4.5 flex flex-col flex-1 justify-between">
@@ -274,9 +278,11 @@ export default function MenuPage() {
                           </span>
                         )}
 
-                        <h3 className="font-bold text-stone-900 text-sm sm:text-base leading-snug group-hover:text-[#b83827] transition-colors">
-                          {dish.name}
-                        </h3>
+                        <Link href={`/menu/${dish.id}`}>
+                          <h3 className="font-bold text-stone-900 text-sm sm:text-base leading-snug group-hover:text-[#b83827] transition-colors cursor-pointer">
+                            {dish.name}
+                          </h3>
+                        </Link>
 
                         <p className="text-xs text-stone-500 mt-1 line-clamp-2 leading-relaxed">
                           {dish.description}
@@ -289,12 +295,12 @@ export default function MenuPage() {
                           {formatPrice(dish.price)}
                         </span>
 
-                        <button
-                          onClick={() => addItem(dish, selectedOutlet)}
+                        <Link
+                          href={`/menu/${dish.id}`}
                           className="px-3 sm:px-3.5 py-1.5 rounded-lg border border-stone-200 text-xs font-semibold text-stone-800 hover:bg-stone-50 active:scale-95 transition-all cursor-pointer flex items-center gap-1 shadow-2xs"
                         >
                           <span>+ Add</span>
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </div>

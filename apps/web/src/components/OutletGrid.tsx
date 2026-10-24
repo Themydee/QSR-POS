@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Outlet } from '../data/outlets';
 import { LocationPinIcon, ClockIcon, ShoppingBagIcon, ArrowRightIcon } from './Icons';
 import { useCart } from '../context/CartContext';
@@ -11,7 +12,7 @@ interface OutletGridProps {
 }
 
 export function OutletGrid({ outlets }: OutletGridProps) {
-  const { setActiveOutletModal } = useCart();
+  const { setSelectedOutlet } = useCart();
   const deliverCount = outlets.filter((o) => o.deliversToUser).length;
 
   return (
@@ -101,16 +102,17 @@ export function OutletGrid({ outlets }: OutletGridProps) {
                     {outlet.deliversToUser ? 'Delivery & pickup' : 'Outside your delivery area'}
                   </span>
 
-                  <button
-                    onClick={() => setActiveOutletModal(outlet)}
-                    className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all active:scale-95 cursor-pointer ${
+                  <Link
+                    href="/menu"
+                    onClick={() => setSelectedOutlet(outlet)}
+                    className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all active:scale-95 cursor-pointer inline-flex items-center justify-center ${
                       isPrimaryAction
                         ? 'bg-[#b83827] text-white hover:bg-[#a02f1f] shadow-2xs'
                         : 'bg-white border border-stone-300 text-stone-800 hover:bg-stone-50'
                     }`}
                   >
                     View menu
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -138,13 +140,14 @@ export function OutletGrid({ outlets }: OutletGridProps) {
             </p>
 
             {/* Link */}
-            <button
-              onClick={() => setActiveOutletModal(outlets[0])}
+            <Link
+              href="/menu"
+              onClick={() => setSelectedOutlet(outlets[0])}
               className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-[#1b6b38] hover:underline cursor-pointer group"
             >
               <span>Pickup is always free</span>
               <span className="transition-transform group-hover:translate-x-1">→</span>
-            </button>
+            </Link>
           </div>
 
           {/* Footer Hours */}

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ArrowRightIcon } from './Icons';
 
 interface BackgroundScene {
@@ -107,13 +108,13 @@ export function Hero() {
 
           {/* Premium Pill Action Buttons */}
           <div className="flex flex-wrap items-center gap-3.5 sm:gap-4 mb-8">
-            <button
-              onClick={scrollToSearch}
+            <Link
+              href="/menu"
               className="px-7 sm:px-8 py-3.5 sm:py-4 bg-[#b83827] hover:bg-[#a02f1f] text-white font-semibold text-sm sm:text-base rounded-full shadow-lg shadow-black/40 hover:shadow-red-950/50 hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer flex items-center gap-2.5 group"
             >
               <span>Order now</span>
               <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </button>
+            </Link>
 
             <a
               href="#outlets"

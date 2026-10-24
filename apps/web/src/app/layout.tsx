@@ -6,6 +6,8 @@ import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { CartDrawer } from '../components/CartDrawer';
 import { OutletMenuModal } from '../components/OutletMenuModal';
+import { OutletInfoModal } from '../components/OutletInfoModal';
+import { ChangeOutletModal } from '../components/ChangeOutletModal';
 import { Toast } from '../components/Toast';
 
 const geistSans = Geist({
@@ -46,6 +48,8 @@ export default function RootLayout({
           <Footer />
           <CartDrawer />
           <OutletMenuModal />
+          <OutletInfoModal />
+          <ChangeOutletModal />
           <Toast />
         </CartProvider>
       </body>

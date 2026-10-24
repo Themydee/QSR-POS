@@ -89,9 +89,9 @@ export function OutletMenuModal() {
                     <h5 className="font-bold text-stone-900 text-sm sm:text-base group-hover:text-[#b83827] transition-colors">
                       {dish.name}
                     </h5>
-                    {dish.popular && (
+                    {(dish.popular || dish.tag) && (
                       <span className="bg-amber-100 text-amber-800 text-[10px] font-bold px-1.5 py-0.5 rounded">
-                        Best Seller
+                        {dish.tag || 'Best Seller'}
                       </span>
                     )}
                   </div>

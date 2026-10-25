@@ -255,6 +255,7 @@ Or run individual apps:
 
 ```bash
 pnpm --filter web dev        # Customer Website on http://localhost:3000
+pnpm --filter admin dev      # Operations & Outlet Management on http://localhost:3003
 pnpm --filter kitchen dev    # Kitchen Display System on http://localhost:3002
 pnpm --filter pos dev        # Point of Sale on http://localhost:5173
 pnpm --filter api dev        # Backend API on http://localhost:4000
@@ -274,6 +275,7 @@ pnpm --filter api test
 pnpm --filter api exec tsc --noEmit
 pnpm --filter pos exec tsc -b
 pnpm --filter kitchen exec tsc -b
+pnpm --filter admin exec tsc -b
 
 # Run linter
 pnpm --filter api lint

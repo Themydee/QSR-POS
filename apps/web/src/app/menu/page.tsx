@@ -382,12 +382,12 @@ export default function MenuPage() {
               </div>
 
               {/* View Cart Button */}
-              <button
-                onClick={() => setIsCartOpen(true)}
-                className="w-full py-3.5 bg-[#b83827] hover:bg-[#a02f1f] text-white font-bold text-sm rounded-xl transition-all shadow-xs active:scale-[0.99] cursor-pointer"
+              <Link
+                href="/cart"
+                className="w-full py-3.5 bg-[#b83827] hover:bg-[#a02f1f] text-white font-bold text-sm rounded-xl transition-all shadow-xs active:scale-[0.99] cursor-pointer block text-center"
               >
                 View cart · {formatPrice(subtotal)}
-              </button>
+              </Link>
 
               {/* Freshness Trust Badge */}
               <div className="flex items-center justify-center gap-1.5 text-xs text-stone-500 pt-4 mt-4 border-t border-stone-100">

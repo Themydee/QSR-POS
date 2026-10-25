@@ -14,6 +14,20 @@ export interface CartItem {
   totalPrice: number;
 }
 
+export interface CustomerDetails {
+  fullName: string;
+  phone: string;
+  email: string;
+}
+
+export interface DeliveryAddress {
+  street: string;
+  area: string;
+  cityState: string;
+  instructions: string;
+  saveAddress: boolean;
+}
+
 interface CartContextType {
   cart: CartItem[];
   isCartOpen: boolean;
@@ -24,6 +38,8 @@ interface CartContextType {
   clearCart: () => void;
   totalCount: number;
   subtotal: number;
+  deliveryFee: number;
+  grandTotal: number;
   activeOutletModal: Outlet | null;
   setActiveOutletModal: (outlet: Outlet | null) => void;
   selectedOutlet: Outlet;
@@ -34,11 +50,27 @@ interface CartContextType {
   setIsChangeOutletOpen: (open: boolean) => void;
   notification: string | null;
   showNotification: (msg: string) => void;
+  // Order & Checkout state
+  kitchenNote: string;
+  setKitchenNote: (val: string) => void;
+  deliveryType: 'delivery' | 'pickup';
+  setDeliveryType: (val: 'delivery' | 'pickup') => void;
+  customerDetails: CustomerDetails;
+  setCustomerDetails: React.Dispatch<React.SetStateAction<CustomerDetails>>;
+  deliveryAddress: DeliveryAddress;
+  setDeliveryAddress: React.Dispatch<React.SetStateAction<DeliveryAddress>>;
+  paymentMethod: 'online' | 'pickup';
+  setPaymentMethod: (val: 'online' | 'pickup') => void;
+  promoCode: string;
+  setPromoCode: (val: string) => void;
+  promoDiscount: number;
+  promoError: string | null;
+  applyPromoCode: (code: string) => boolean;
 }
 
 const defaultOutlet = INITIAL_OUTLETS[0]; // Lekki Phase 1
 
-// Pre-seeded with the 3 items from the client reference design
+// Pre-seeded with the items from the client reference design
 const INITIAL_CART_ITEMS: CartItem[] = [
   {
     id: 'cart-init-jollof',
@@ -46,7 +78,7 @@ const INITIAL_CART_ITEMS: CartItem[] = [
     quantity: 2,
     outletId: defaultOutlet.id,
     outletName: defaultOutlet.name,
-    customization: 'Medium pepper · Extra plantain',
+    customization: 'Medium pepper · Grilled chicken · Extra plantain',
     unitPrice: 7500, // 6500 base + 1000 extra plantain
     totalPrice: 15000,
   },
@@ -72,6 +104,44 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [isOutletInfoOpen, setIsOutletInfoOpen] = useState(false);
   const [isChangeOutletOpen, setIsChangeOutletOpen] = useState(false);
   const [notification, setNotification] = useState<string | null>(null);
+
+  // Checkout states matching mock
+  const [kitchenNote, setKitchenNote] = useState<string>(
+    'Please pack the plantain separately.'
+  );
+  const [deliveryType, setDeliveryType] = useState<'delivery' | 'pickup'>('delivery');
+  const [customerDetails, setCustomerDetails] = useState<CustomerDetails>({
+    fullName: 'Tolu Adeyemi',
+    phone: '0803 456 7890',
+    email: 'tolu.adeyemi@gmail.com',
+  });
+  const [deliveryAddress, setDeliveryAddress] = useState<DeliveryAddress>({
+    street: '14 Admiralty Way',
+    area: 'Lekki Phase 1',
+    cityState: 'Lagos, Lagos',
+    instructions: 'Blue gate, opposite the pharmacy. Please call on arrival.',
+    saveAddress: true,
+  });
+  const [paymentMethod, setPaymentMethod] = useState<'online' | 'pickup'>('online');
+  const [promoCode, setPromoCode] = useState('');
+  const [promoDiscount, setPromoDiscount] = useState(0);
+  const [promoError, setPromoError] = useState<string | null>(null);
+
+  const applyPromoCode = (code: string) => {
+    const trimmed = code.trim().toUpperCase();
+    if (trimmed === 'BUKA10' || trimmed === 'WELCOME') {
+      setPromoDiscount(1500);
+      setPromoError(null);
+      showNotification('Promo code applied: ₦1,500 off!');
+      return true;
+    } else if (trimmed === '') {
+      setPromoError('Please enter a valid code');
+      return false;
+    } else {
+      setPromoError('Invalid promo code');
+      return false;
+    }
+  };
 
   const showNotification = (msg: string) => {
     setNotification(msg);
@@ -124,6 +194,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const removeItem = (cartItemId: string) => {
     setCart((prev) => prev.filter((ci) => ci.id !== cartItemId));
+    showNotification('Item removed from bag');
   };
 
   const updateQuantity = (cartItemId: string, delta: number) => {
@@ -146,6 +217,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+  const deliveryFee = deliveryType === 'delivery' ? 1500 : 0;
+  const grandTotal = Math.max(0, subtotal + deliveryFee - promoDiscount);
 
   return (
     <CartContext.Provider
@@ -159,6 +232,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         clearCart,
         totalCount,
         subtotal,
+        deliveryFee,
+        grandTotal,
         activeOutletModal,
         setActiveOutletModal,
         selectedOutlet,
@@ -169,6 +244,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setIsChangeOutletOpen,
         notification,
         showNotification,
+        kitchenNote,
+        setKitchenNote,
+        deliveryType,
+        setDeliveryType,
+        customerDetails,
+        setCustomerDetails,
+        deliveryAddress,
+        setDeliveryAddress,
+        paymentMethod,
+        setPaymentMethod,
+        promoCode,
+        setPromoCode,
+        promoDiscount,
+        promoError,
+        applyPromoCode,
       }}
     >
       {children}

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { useCart } from '../context/CartContext';
 import { CloseIcon, ShoppingBagIcon } from './Icons';
 
@@ -113,18 +114,13 @@ export function CartDrawer() {
                 </div>
               </div>
 
-              <button
-                onClick={() => {
-                  alert(
-                    `Order of ${formatPrice(grandTotal)} placed successfully! Sending to the kitchen.`
-                  );
-                  clearCart();
-                  setIsCartOpen(false);
-                }}
-                className="w-full py-3.5 bg-[#b83827] hover:bg-[#a02f1f] text-white font-bold text-sm rounded-xl transition-all shadow-sm active:scale-[0.99]"
+              <Link
+                href="/cart"
+                onClick={() => setIsCartOpen(false)}
+                className="w-full py-3.5 bg-[#b83827] hover:bg-[#a02f1f] text-white font-bold text-sm rounded-xl transition-all shadow-sm active:scale-[0.99] block text-center"
               >
-                Checkout · {formatPrice(grandTotal)}
-              </button>
+                View cart &amp; checkout · {formatPrice(subtotal)}
+              </Link>
 
               <button
                 onClick={clearCart}

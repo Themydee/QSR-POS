@@ -108,7 +108,7 @@ flowchart TD
 - **Outlet Micro-Pages:** Dedicated SEO-optimized pages for each outlet featuring addresses, maps, operating hours, and delivery boundaries.
 - **Dynamic Store Availability:** Live open/closed indicators preventing orders during off-hours.
 
-### 2. Kitchen & Outlet Display Screen (KDS)
+### 2. Kitchen & Outlet Display Screen (KDS) (`apps/kitchen`)
 - **Outlet-Isolated Stream:** Kitchen staff only view orders designated for their specific outlet.
 - **Audio Chime Alerts:** Audio notifications for newly arrived tickets.
 - **One-Tap Status Progression:** Intuitive status buttons (`Accept`, `Preparing`, `Ready`, `Dispatched`).
@@ -254,9 +254,10 @@ pnpm dev
 Or run individual apps:
 
 ```bash
-pnpm --filter web dev    # Customer Website on http://localhost:3000
-pnpm --filter pos dev    # Point of Sale on http://localhost:5173
-pnpm --filter api dev    # Backend API on http://localhost:4000
+pnpm --filter web dev        # Customer Website on http://localhost:3000
+pnpm --filter kitchen dev    # Kitchen Display System on http://localhost:3002
+pnpm --filter pos dev        # Point of Sale on http://localhost:5173
+pnpm --filter api dev        # Backend API on http://localhost:4000
 ```
 
 ---
@@ -272,6 +273,7 @@ pnpm --filter api test
 # Run type checks
 pnpm --filter api exec tsc --noEmit
 pnpm --filter pos exec tsc -b
+pnpm --filter kitchen exec tsc -b
 
 # Run linter
 pnpm --filter api lint
